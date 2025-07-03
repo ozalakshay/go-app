@@ -1,22 +1,23 @@
-
-FROM golang:1.22.5 as base
+# Build stage
+FROM golang:1.22.5 AS builder
 
 WORKDIR /app
 
-COPY go.mod ./
-
+COPY go.mod go.sum ./
 RUN go mod download
 
 COPY . .
 
-RUN go build -o main .
+RUN CGO_ENABLED=0 GOOS=linux go build -o main .
 
-FROM gcr.io/distroless/base
+# Final stage: Distroless
+FROM gcr.io/distroless/static
 
-COPY --from=base /app/main .
+WORKDIR /
 
-COPY --from=base /app/static ./static
+COPY --from=builder /app/main .
+COPY --from=builder /app/static ./static
 
 EXPOSE 8080
 
-CMD ["./main"]
+ENTRYPOINT ["/main"]
