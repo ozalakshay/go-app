@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: go-app
-        image: lakudi/go-app
+        image: lakudi/go-app:v1
         ports:
         - containerPort: 8080
