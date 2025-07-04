@@ -8,7 +8,7 @@ image:
   repository: lakudi/go-app
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "16067788796"
+  tag: "16069624118"
 
 ingress:
   enabled: false
